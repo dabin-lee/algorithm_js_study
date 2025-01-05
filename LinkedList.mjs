@@ -89,30 +89,49 @@ class LinkedList {
 
     // 특정 데이터 삭제하는 함수: 매개변수로 인덱스만 받으면 제거할 수 있게 함
     deleteAt(index) {
-        if (index > this.count || index < 0) {
+        if(index >= this.count || index < 0){
             throw new Error("제거할 수 없습니다.");
         }
 
+        //노드를 순회 할 변수 생성
         let currentNode = this.head;
 
         // 첫 번째 노드를 제거
         if (index == 0) {
-            let deleteNode = this.head; //삭제 될 노드 저장
+            let deletedNode = this.head; //삭제 될 노드 저장
             this.head = this.head.next; //head에 다음 노드를 지정
             this.count--; //삭제 됐으니 카운트 하나 삭제
-            return deleteNode;
-        }
-        // head(첫 번째 노드)를 제외한 노드를 제거
-        else {
+            return deletedNode;
+        }else { // head(첫 번째 노드)를 제외한 노드를 제거
             // 제거할 이전 노드까지 순회
-            for (let i = 0; i < index - 1; i++) {
+            
+            for(let i = 0; i < index - 1; i++){
                 currentNode = currentNode.next;
             }
-
-            let deleteNode = currentNode.next; // 제거한 노드 반환
-            currentNode.node = currentNode.next; // 제거한 이전 노드가 제거할 노드의 next를 가리키게 함
+            let deletedNode = currentNode.next; // 제거한 노드 반환
+            currentNode.next = currentNode.next.next; // 제거한 이전 노드가 제거할 노드의 next를 가리키게 함
             this.count--;
+            return deletedNode;
         }
+    }
+
+    deleteLast(){
+        return this.deleteAt(this.count - 1);//인덱스는 리스트의 카운터보다 1 작은 값을 넘겨줌
+        //만일 데이터가 세개라면 2번 인덱스가 마지막 데이터임
+    }
+
+    //해당 인덱스의 노드를 읽는 함수
+    getNodeAt(index){
+        if(index >= this.count || index < 0){
+            throw new Error('범위를 넘어갔습니다.')
+        }
+
+        let currentNode = this.head; //리스트 순회할 변수 생성
+        for(let i = 0; i < index; i++){
+            currentNode = currentNode.next;
+        }
+
+        return currentNode;
     }
 }
 
